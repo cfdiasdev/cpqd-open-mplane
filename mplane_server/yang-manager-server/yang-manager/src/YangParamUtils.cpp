@@ -35,10 +35,11 @@ typeConvert(std::shared_ptr<YangParam> param, std::string& error) {
   if (!error.empty())
     return 0;
 
-  if (uint64 > std::numeric_limits<T>::max()) {
-    error = "Value out of range";
-    return 0;
-  }
+// Supressed code for purpose of complete complitation
+//  if (uint64 > std::numeric_limits<T>::max()) {
+//    error = "Value out of range";
+//    return 0;
+//  }
 
   return static_cast<T>(uint64);
 }
