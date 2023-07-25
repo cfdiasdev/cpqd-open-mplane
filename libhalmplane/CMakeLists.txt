@@ -2,30 +2,28 @@ cmake_minimum_required(VERSION 3.12)
 
 if("${CONTEXT}" STREQUAL "STANDALONE")
 
-  include(GNUInstallDirs)
+	project (halmplane VERSION 0.1.0 LANGUAGES CXX)
 
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
-  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+	include_directories(
+	${PROJECT_SOURCE_DIR}/inc/
+	)
 
-  # the -I flag in gcc
-  include_directories(
-    ${PROJECT_SOURCE_DIR}/inc/
-    )
+	set(LIBRARY_NAME halmplane)
+	add_library(${LIBRARY_NAME}     example/src/HalMplane.cpp 
+									example/src/MplaneUplaneConf.cpp
+									example/src/HalMplane.cpp
+									example/src/MplaneProcessingElements.cpp
+									example/src/MplaneInterfaces.cpp
+									zcu111/src/MplaneExternalio.cpp
+									zcu111/src/MplaneHardware.cpp
+									zcu111/src/MplaneAlarms.cpp
+									zcu111/src/MplaneEcpri.cpp)
 
-  set(LIB_SOURCES
-      ${BUILD}/src/MplaneEcpri.c
-      ${BUILD}/src/MplaneAlarms.c
-      ${BUILD}/src/MplanePerformanceMgmt.c
-  )
+	set_target_properties(halmplane PROPERTIES PUBLIC_HEADER inc/HalMplane.h)
 
-  # Library
-  set(LIBRARY_NAME halmplane)
-  add_library(${LIBRARY_NAME} STATIC ${LIB_SOURCES})
-  install(TARGETS halmplane
-      LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-      PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-      )
+	install(TARGETS halmplane
+	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 elseif( "${CONTEXT}" STREQUAL "YOCTO")
   set(CMAKE_CXX_STANDARD 17)
