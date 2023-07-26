@@ -20,7 +20,7 @@
 #include <vector>
 #include <map>
 
-#include "libtinyxml2/tinyxml2.h"
+#include <tinyxml2.h>
 
 #include "IYangConfigParser.h"
 #include "IYangConfig.h"
