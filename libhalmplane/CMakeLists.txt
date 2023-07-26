@@ -19,7 +19,10 @@ if("${CONTEXT}" STREQUAL "STANDALONE")
 									zcu111/src/MplaneAlarms.cpp
 									zcu111/src/MplaneEcpri.cpp)
 
-	set_target_properties(halmplane PROPERTIES PUBLIC_HEADER inc/HalMplane.h)
+	set(HALMPLANE_PUBLIC_INCLUDE_DIRECTORIES      inc/ )
+	file(GLOB_RECURSE HALMPLANE_INCLUDE_FILES "inc/*.h")
+
+	set_target_properties(halmplane PROPERTIES PUBLIC_HEADER "${HALMPLANE_INCLUDE_FILES}")
 
 	install(TARGETS halmplane
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -39,6 +42,7 @@ elseif( "${CONTEXT}" STREQUAL "YOCTO")
   set(version "0.1")
   project (halmplane VERSION 0.1.0 LANGUAGES CXX)
   add_library(${LIBRARY_NAME} SHARED)
+  set_target_properties(${LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
   set_target_properties(${LIBRARY_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
   set_target_properties(${LIBRARY_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
